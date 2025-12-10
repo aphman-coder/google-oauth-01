@@ -13,7 +13,7 @@ function gapiLoaded() {
 async function initializeGapiClient() {
     try {
         await gapi.client.init({
-            apiKey: 'YOUR_GOOGLE_API_KEY', // TODO: Replace with your actual Google API Key
+            apiKey: 'AIzaSyAVQfynHYU5HIjnooAgYJueI8yGkE2QL6c',
             discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
         });
         gapiInited = true;
