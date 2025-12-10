@@ -10,6 +10,14 @@ const PORT = process.env.PORT || 3000;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 
+// Add security headers to help with OAuth flow
+app.use((req, res, next) => {
+    // Set Cross-Origin-Opener-Policy to allow OAuth popups
+    res.setHeader('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+    res.setHeader('Cross-Origin-Embedder-Policy', 'unsafe-none');
+    next();
+});
+
 // Serve static files from public directory
 app.use(express.static(path.join(__dirname, 'public')));
 
