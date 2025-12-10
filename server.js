@@ -10,8 +10,18 @@ const PORT = process.env.PORT || 3000;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 
-// Serve static files
-app.use(express.static(__dirname));
+// Serve static files - must be before other routes
+app.use(express.static(__dirname, {
+  dotfiles: 'ignore',
+  etag: true,
+  extensions: ['html', 'css', 'js'],
+  index: false,
+  maxAge: '1d',
+  redirect: false,
+  setHeaders: function (res, path, stat) {
+    res.set('x-timestamp', Date.now().toString());
+  }
+}));
 
 // Serve the main page
 app.get('/', (req, res) => {
