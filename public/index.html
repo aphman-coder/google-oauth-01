@@ -36,50 +36,49 @@
     </div>
 
     <script>
-        // Define functions in global scope before Google scripts load
-        function gapiLoaded() {
-            if (typeof gapi !== 'undefined') {
-                gapi.load('client', initializeGapiClient);
-            }
-        }
+        // Define variables and functions in global scope before Google scripts load
+        window.tokenClient = null;
+        window.gapiInited = false;
+        window.gisInited = false;
         
-        function gisLoaded() {
+        window.gapiLoaded = function() {
+            if (typeof gapi !== 'undefined') {
+                gapi.load('client', window.initializeGapiClient);
+            }
+        };
+        
+        window.gisLoaded = function() {
             if (typeof google !== 'undefined' && typeof google.accounts !== 'undefined') {
-                tokenClient = google.accounts.oauth2.initTokenClient({
+                window.tokenClient = google.accounts.oauth2.initTokenClient({
                     client_id: '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com',
                     scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
                     callback: '', // defined later
                 });
-                gisInited = true;
-                maybeEnableButtons();
+                window.gisInited = true;
+                window.maybeEnableButtons();
             }
-        }
+        };
         
-        // Initialize variables
-        let tokenClient;
-        let gapiInited = false;
-        let gisInited = false;
-        
-        function maybeEnableButtons() {
-            if (gapiInited && gisInited) {
+        window.maybeEnableButtons = function() {
+            if (window.gapiInited && window.gisInited) {
                 const btn = document.getElementById('google-signin-btn');
                 if (btn) btn.disabled = false;
             }
-        }
+        };
         
-        async function initializeGapiClient() {
+        window.initializeGapiClient = async function() {
             try {
                 await gapi.client.init({
                     apiKey: 'AIzaSyAVQfynHYU5HIjnooAgYJueI8yGkE2QL6c',
                     discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
                 });
-                gapiInited = true;
-                maybeEnableButtons();
+                window.gapiInited = true;
+                window.maybeEnableButtons();
             } catch (error) {
                 console.error('Error initializing Google API:', error);
                 alert('Failed to initialize Google API. Please check your API Key configuration.');
             }
-        }
+        };
     </script>
     <script src="app.js"></script>
     <script src="https://apis.google.com/js/api.js" onload="gapiLoaded()" async defer></script>

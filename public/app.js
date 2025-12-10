@@ -1,44 +1,6 @@
 // Google OAuth Configuration
-const CLIENT_ID = '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com'; // ✅ Already set correctly
-
-let tokenClient;
-let gapiInited = false;
-let gisInited = false;
-
-// Initialize Google API
-function gapiLoaded() {
-    gapi.load('client', initializeGapiClient);
-}
-
-async function initializeGapiClient() {
-    try {
-        await gapi.client.init({
-            apiKey: 'AIzaSyAVQfynHYU5HIjnooAgYJueI8yGkE2QL6c',
-            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
-        });
-        gapiInited = true;
-        maybeEnableButtons();
-    } catch (error) {
-        console.error('Error initializing Google API:', error);
-        alert('Failed to initialize Google API. Please check your API Key configuration.');
-    }
-}
-
-function gisLoaded() {
-    tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-        callback: '', // defined later
-    });
-    gisInited = true;
-    maybeEnableButtons();
-}
-
-function maybeEnableButtons() {
-    if (gapiInited && gisInited) {
-        document.getElementById('google-signin-btn').disabled = false;
-    }
-}
+// Note: tokenClient, gapiInited, gisInited, and initialization functions are defined inline in index.html
+const CLIENT_ID = '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com';
 
 // Handle sign in
 function handleAuthClick() {
@@ -63,9 +25,9 @@ function handleAuthClick() {
     };
 
     if (gapi.client.getToken() === null) {
-        tokenClient.requestAccessToken({ prompt: 'consent' });
+        window.tokenClient.requestAccessToken({ prompt: 'consent' });
     } else {
-        tokenClient.requestAccessToken({ prompt: '' });
+        window.tokenClient.requestAccessToken({ prompt: '' });
     }
 }
 
