@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "public": true,
   "builds": [
     {
       "src": "server.js",
@@ -10,10 +11,6 @@
     {
       "src": "/api/verify-token",
       "dest": "/api/verify-token.js"
-    },
-    {
-      "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|json))",
-      "dest": "/$1"
     },
     {
       "src": "/(.*)",
