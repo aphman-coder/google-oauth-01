@@ -4,13 +4,13 @@ const CLIENT_ID = '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleuser
 
 // Handle sign in
 function handleAuthClick() {
-    if (!tokenClient) {
+    if (!window.tokenClient) {
         console.error('Token client not initialized');
         alert('Google Sign-In is not ready. Please refresh the page.');
         return;
     }
 
-    tokenClient.callback = async (resp) => {
+    window.tokenClient.callback = async (resp) => {
         if (resp.error !== undefined) {
             console.error('OAuth error:', resp.error);
             alert('Sign-in failed: ' + resp.error);
