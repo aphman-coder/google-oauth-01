@@ -11,12 +11,17 @@ function gapiLoaded() {
 }
 
 async function initializeGapiClient() {
-    await gapi.client.init({
-        apiKey: 'YOUR_GOOGLE_API_KEY',
-        discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
-    });
-    gapiInited = true;
-    maybeEnableButtons();
+    try {
+        await gapi.client.init({
+            apiKey: 'YOUR_GOOGLE_API_KEY', // TODO: Replace with your actual Google API Key
+            discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
+        });
+        gapiInited = true;
+        maybeEnableButtons();
+    } catch (error) {
+        console.error('Error initializing Google API:', error);
+        alert('Failed to initialize Google API. Please check your API Key configuration.');
+    }
 }
 
 function gisLoaded() {
@@ -37,11 +42,24 @@ function maybeEnableButtons() {
 
 // Handle sign in
 function handleAuthClick() {
+    if (!tokenClient) {
+        console.error('Token client not initialized');
+        alert('Google Sign-In is not ready. Please refresh the page.');
+        return;
+    }
+
     tokenClient.callback = async (resp) => {
         if (resp.error !== undefined) {
-            throw resp;
+            console.error('OAuth error:', resp.error);
+            alert('Sign-in failed: ' + resp.error);
+            return;
         }
-        await getUserInfo();
+        try {
+            await getUserInfo();
+        } catch (error) {
+            console.error('Error after sign-in:', error);
+            alert('Failed to get user information. Please try again.');
+        }
     };
 
     if (gapi.client.getToken() === null) {
