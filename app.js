@@ -1,5 +1,5 @@
 // Google OAuth Configuration
-const CLIENT_ID = '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com';
+const CLIENT_ID = '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com'; // ✅ Already set correctly
 
 let tokenClient;
 let gapiInited = false;

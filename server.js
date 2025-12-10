@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 // Google OAuth Configuration (Server-side)
 // Note: These should be stored as environment variables in production
 // Set them in Vercel: Project Settings → Environment Variables
+// See VERCEL_ENV_SETUP.md for instructions
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 
