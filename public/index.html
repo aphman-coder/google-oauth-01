@@ -35,6 +35,52 @@
         </div>
     </div>
 
+    <script>
+        // Define functions in global scope before Google scripts load
+        function gapiLoaded() {
+            if (typeof gapi !== 'undefined') {
+                gapi.load('client', initializeGapiClient);
+            }
+        }
+        
+        function gisLoaded() {
+            if (typeof google !== 'undefined' && typeof google.accounts !== 'undefined') {
+                tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: '384084300027-bv1hdmk7vb3ousl077hs7isnfe2qvfkc.apps.googleusercontent.com',
+                    scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+                    callback: '', // defined later
+                });
+                gisInited = true;
+                maybeEnableButtons();
+            }
+        }
+        
+        // Initialize variables
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+        
+        function maybeEnableButtons() {
+            if (gapiInited && gisInited) {
+                const btn = document.getElementById('google-signin-btn');
+                if (btn) btn.disabled = false;
+            }
+        }
+        
+        async function initializeGapiClient() {
+            try {
+                await gapi.client.init({
+                    apiKey: 'AIzaSyAVQfynHYU5HIjnooAgYJueI8yGkE2QL6c',
+                    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/oauth2/v2/rest'],
+                });
+                gapiInited = true;
+                maybeEnableButtons();
+            } catch (error) {
+                console.error('Error initializing Google API:', error);
+                alert('Failed to initialize Google API. Please check your API Key configuration.');
+            }
+        }
+    </script>
     <script src="app.js"></script>
     <script src="https://apis.google.com/js/api.js" onload="gapiLoaded()" async defer></script>
     <script src="https://accounts.google.com/gsi/client" onload="gisLoaded()" async defer></script>
